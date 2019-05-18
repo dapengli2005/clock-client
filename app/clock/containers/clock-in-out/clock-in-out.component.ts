@@ -10,7 +10,8 @@ import { ClockService } from '../../clock.service';
     <input
       type="text"
       [value]="note"
-    >
+      (input)="onNoteChange(noteInput.value)"
+      #noteInput>
     <div *ngIf="nextEntry">
       <button (click)="handleClick()">Clock {{nextEntry.type}}</button>
     </div>
@@ -26,6 +27,10 @@ export class ClockInOutComponent implements OnInit {
   ngOnInit() {
     this.clockService.getNext()
       .subscribe((val: ClockEntry) => this.nextEntry = val);
+  }
+
+  onNoteChange(val) {
+    this.note = val;
   }
 
   handleClick() {

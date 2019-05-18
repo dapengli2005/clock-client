@@ -12,8 +12,8 @@ import { User } from './models/user.interface';
         <input
           type="text"
           [value]="username"
-          (input)="onNameChange(name.value)"
-          #name>
+          (input)="onNameChange(nameInput.value)"
+          #nameInput>
         <button [disabled]="!username" (click)="login()">
           Login
         </button>

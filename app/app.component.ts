@@ -1,4 +1,5 @@
 import { Injectable, Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { User } from './models/user.interface';
 import { UserService } from './user.service';
 
@@ -50,11 +51,15 @@ export class AppComponent {
     }
   ];
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private router: Router) {
   }
 
   logout(e) {
     e.preventDefault();
-    console.log('log out');
+    this.userService
+      .logout()
+      .subscribe(() => {
+        this.router.navigate(['/']);
+      });
   }
 }

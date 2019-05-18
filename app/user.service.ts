@@ -7,6 +7,7 @@ import { API_BASE } from './constants';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/of';
 
 const LOGIN_URL: string = `${API_BASE}/users/login`;
 
@@ -28,6 +29,11 @@ export class UserService {
         return this.user;
       })
       .catch((error: any) => Observable.throw(error.json()));
+  }
+
+  logout(): Observable<User> {
+    this.user = null;
+    return Observable.of(this.user);
   }
 
   getUser(): User {

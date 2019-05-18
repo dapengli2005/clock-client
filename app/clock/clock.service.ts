@@ -13,16 +13,18 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 
-const NEXT_ENTRY_URL: string = `${API_BASE}/users/:id/clock_entries/next`;
-const REGISTER_ENTRY_URL: string = `${API_BASE}/users/:id/clock_entries`;
-const GET_ENTRIES_URL: string = `${API_BASE}/users/:id/clock_entries`;
+const NEXT_ENTRY_URL: string = `${API_BASE}/users/:user_id/clock_entries/next`;
+const REGISTER_ENTRY_URL: string = `${API_BASE}/users/:user_id/clock_entries`;
+const GET_ENTRIES_URL: string = `${API_BASE}/users/:user_id/clock_entries`;
+const GET_ENTRY_URL: string = `${API_BASE}/users/:user_id/clock_entries/:id`;
+const UPDATE_ENTRY_URL: string = `${API_BASE}/users/:user_id/clock_entries/:id`;
 
 @Injectable()
 export class ClockService {
   constructor(private http: Http, private userService: UserService) {}
 
   getNext(): Observable<ClockEntry> {
-    const url = NEXT_ENTRY_URL.replace(':id', `${this.userService.getUser().id}`);
+    const url = NEXT_ENTRY_URL.replace(':user_id', `${this.userService.getUser().id}`);
     return this.http
       .get(url)
       .map((response: Response) => response.json())
@@ -30,7 +32,7 @@ export class ClockService {
   }
 
   registerEntry(entry: ClockEntry): Observable<ClockEntry> {
-    const url = REGISTER_ENTRY_URL.replace(':id', `${this.userService.getUser().id}`);
+    const url = REGISTER_ENTRY_URL.replace(':user_id', `${this.userService.getUser().id}`);
     return this.http
       .post(url, entry)
       .map((response: Response) => response.json())
@@ -38,7 +40,7 @@ export class ClockService {
   }
 
   getEntries(): Observable<PaginatedClockEntries> {
-    const url = GET_ENTRIES_URL.replace(':id', `${this.userService.getUser().id}`);
+    const url = GET_ENTRIES_URL.replace(':user_id', `${this.userService.getUser().id}`);
     return this.http
       .get(url)
       .map((response: Response) => response.json())
@@ -48,6 +50,26 @@ export class ClockService {
   getEntriesBy({ url, method }: PaginationMeta): Observable<PaginatedClockEntries> {
     return this.http
       .request(new Request({ url, method: this.mapMethod(method) }))
+      .map((response: Response) => response.json())
+      .catch((error: any) => Observable.throw(error.json()));
+  }
+
+  getEntry(id: number): Observable<ClockEntry> {
+    const url = GET_ENTRY_URL.replace(':user_id', `${this.userService.getUser().id}`)
+                             .replace(':id', `${id}`);
+
+    return this.http
+      .get(url)
+      .map((response: Response) => response.json())
+      .catch((error: any) => Observable.throw(error.json()));
+  }
+
+  updateEntry(entry: ClockEntry): Observable<ClockEntry> {
+    const url = UPDATE_ENTRY_URL.replace(':user_id', `${this.userService.getUser().id}`)
+                                .replace(':id', `${entry.id}`);
+
+    return this.http
+      .put(url, entry)
       .map((response: Response) => response.json())
       .catch((error: any) => Observable.throw(error.json()));
   }

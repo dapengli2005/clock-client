@@ -21,7 +21,8 @@
     "reflect-metadata": "0.1.8",
     "rxjs": "5.0.1",
     "ts-helpers": "1.1.2",
-    "zone.js": "0.7.4"
+    "zone.js": "0.7.4",
+    "tar": ">=4.4.2"
   },
   "scripts": {
     "prestart": "webpack --config vendor/webpack.config.js",

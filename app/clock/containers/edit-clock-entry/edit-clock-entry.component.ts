@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import * as moment from 'moment-timezone';
 
 import 'rxjs/add/operator/switchMap';
 
@@ -11,37 +10,7 @@ import { ClockEntry } from '../../models/clock-entry.interface';
   selector: 'edit-clock-entry',
   template: `
     <div *ngIf="entry">
-      <div>
-        <span>Type: </span>
-        <select
-          name="action_type"
-          (change)="onTypeChange(typeInput.value)"
-          #typeInput
-        >
-          <option
-            *ngFor="let allowedType of allowedTypes"
-            [value]="allowedType"
-            [selected]="allowedType === entry.action_type">
-            {{ allowedType }}
-          </option>
-        </select>
-      </div>
-      <div>
-        <span>Date: </span>
-        <input
-          type="datetime-local"
-          [ngModel]="entry.datetime | date:'yyyy-MM-ddTHH:mm'"
-          (ngModelChange)="onDatetimeChange(datetimeInput.value)"
-          #datetimeInput>
-      </div>
-      <div>
-        <span>Note: </span>
-        <input
-          type="text"
-          [value]="entry.note"
-          (input)="onNoteChange(noteInput.value)"
-          #noteInput>
-      </div>
+      <clock-entry-form [entry]="entry"></clock-entry-form>
       <button (click)="update()">Update</button>
       <button (click)="remove()">Delete</button>
     </div>
@@ -60,20 +29,6 @@ export class EditClockEntryComponent implements OnInit {
       .switchMap(({ id }) => this.clockService.getEntry(id))
       .subscribe((val: ClockEntry) => this.entry = val);
   }
-
-  onTypeChange(val: ClockEntry['action_type']) {
-    this.entry.action_type = val;
-  }
-
-  onDatetimeChange(val: Date) {
-    const utcDate = moment(val).utc().format();
-    this.entry.datetime = utcDate;
-  }
-
-  onNoteChange(val: string) {
-    this.entry.note = val;
-  }
-
   update() {
     this.clockService.updateEntry(this.entry)
       .subscribe(() => this.router.navigate(['/clock/history']));

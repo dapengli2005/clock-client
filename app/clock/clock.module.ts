@@ -11,6 +11,7 @@ import { EditClockEntryComponent } from './containers/edit-clock-entry/edit-cloc
 import { NewClockEntryComponent } from './containers/new-clock-entry/new-clock-entry.component';
 
 // components
+import { ClockEntryFormComponent } from './components/clock-entry-form.component';
 
 // service
 import { ClockService } from './clock.service';
@@ -33,6 +34,7 @@ const routes: Routes = [
     ClockEntryHistoryComponent,
     EditClockEntryComponent,
     NewClockEntryComponent,
+    ClockEntryFormComponent
   ],
   imports: [
     CommonModule,

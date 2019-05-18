@@ -1,6 +1,6 @@
 export interface ClockEntry {
   id?: number;
-  userId?: number;
+  user_id?: number;
   action_type: 'IN' | 'OUT';
   datetime?: Date;
   note?: string;

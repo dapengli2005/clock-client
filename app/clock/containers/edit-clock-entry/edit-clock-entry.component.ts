@@ -11,14 +11,20 @@ import { ClockEntry } from '../../models/clock-entry.interface';
   selector: 'edit-clock-entry',
   template: `
     <div *ngIf="entry">
-      {{entry.datetime}}
       <div>
         <span>Type: </span>
-        <input
-          type="text"
-          [value]="entry.action_type"
-          (input)="onTypeChange(typeInput.value)"
-          #typeInput>
+        <select
+          name="action_type"
+          (change)="onTypeChange(typeInput.value)"
+          #typeInput
+        >
+          <option
+            *ngFor="let allowedType of allowedTypes"
+            [value]="allowedType"
+            [selected]="allowedType === entry.action_type">
+            {{ allowedType }}
+          </option>
+        </select>
       </div>
       <div>
         <span>Date: </span>
@@ -41,6 +47,8 @@ import { ClockEntry } from '../../models/clock-entry.interface';
   `
 })
 export class EditClockEntryComponent implements OnInit {
+  allowedTypes = ['IN', 'OUT'];
+
   entry: ClockEntry;
 
   constructor(private clockService: ClockService, private router: Router, private route: ActivatedRoute) {
@@ -66,9 +74,8 @@ export class EditClockEntryComponent implements OnInit {
   }
 
   update() {
-    console.log(this.entry);
     this.clockService.updateEntry(this.entry)
-      .subscribe(() => this.router.navigate([`/clock/edit/${this.entry.id}`]));
+      .subscribe(() => this.router.navigate(['/clock/history']));
   }
 }
 

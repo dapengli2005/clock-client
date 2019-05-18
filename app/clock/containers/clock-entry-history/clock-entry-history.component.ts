@@ -6,10 +6,11 @@ import { PaginatedClockEntries, PaginationMeta } from '../../models/paginated-cl
 
 @Component({
   selector: 'clock-entry-history',
+  styleUrls: ['clock-entry-history.component.scss'],
   template: `
     <div *ngIf="paginatedEntries">
       <div *ngFor="let entry of paginatedEntries.data">
-        {{entry.id}}
+          {{entry.action_type}} - {{entry.datetime | date:'medium'}}<span class="note" *ngIf="entry.note"> ({{entry.note}})</span>
       </div>
       <a href="#" *ngIf="paginatedEntries.meta?.prev" (click)="goTo($event, paginatedEntries.meta.prev)">prev</a>
       <a href="#" *ngIf="paginatedEntries.meta?.next" (click)="goTo($event, paginatedEntries.meta.next)">next</a>

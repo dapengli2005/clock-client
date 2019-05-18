@@ -19,6 +19,7 @@ const GET_ENTRIES_URL: string = `${API_BASE}/users/:user_id/clock_entries`;
 const GET_ENTRY_URL: string = `${API_BASE}/users/:user_id/clock_entries/:id`;
 const UPDATE_ENTRY_URL: string = `${API_BASE}/users/:user_id/clock_entries/:id`;
 const DELETE_ENTRY_URL: string = `${API_BASE}/users/:user_id/clock_entries/:id`;
+const CREATE_ENTRY_URL: string = `${API_BASE}/users/:user_id/clock_entries`;
 
 @Injectable()
 export class ClockService {
@@ -81,6 +82,19 @@ export class ClockService {
 
     return this.http
       .delete(url)
+      .map((response: Response) => response.json())
+      .catch((error: any) => Observable.throw(error.json()));
+  }
+
+  createEntry(entry: ClockEntry): Observable<ClockEntry> {
+    const userId = this.userService.getUser().id;
+    const url = CREATE_ENTRY_URL.replace(':user_id', `${userId}`);
+
+    return this.http
+      .post(url, {
+        ...entry,
+        user_id: userId
+      })
       .map((response: Response) => response.json())
       .catch((error: any) => Observable.throw(error.json()));
   }

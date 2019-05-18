@@ -17,8 +17,6 @@ import { ClockEntry } from '../../models/clock-entry.interface';
   `
 })
 export class EditClockEntryComponent implements OnInit {
-  allowedTypes = ['IN', 'OUT'];
-
   entry: ClockEntry;
 
   constructor(private clockService: ClockService, private router: Router, private route: ActivatedRoute) {
@@ -29,6 +27,7 @@ export class EditClockEntryComponent implements OnInit {
       .switchMap(({ id }) => this.clockService.getEntry(id))
       .subscribe((val: ClockEntry) => this.entry = val);
   }
+
   update() {
     this.clockService.updateEntry(this.entry)
       .subscribe(() => this.router.navigate(['/clock/history']));

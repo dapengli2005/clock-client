@@ -13,6 +13,7 @@ import { NewClockEntryComponent } from './containers/new-clock-entry/new-clock-e
 // components
 
 // service
+import { ClockService } from './clock.service';
 
 const routes: Routes = [
   {
@@ -40,6 +41,7 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   providers: [
+    ClockService
   ]
 })
 export class ClockModule {}

@@ -10,6 +10,8 @@ import { NotFoundComponent } from './not-found.component';
 
 import { AppComponent } from './app.component';
 
+import { UserService } from './user.service';
+
 const routes: Routes = [
   { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: '**', component: NotFoundComponent }
@@ -26,6 +28,9 @@ const routes: Routes = [
     CommonModule,
     RouterModule.forRoot(routes),
     ClockModule
+  ],
+  providers:[
+    UserService
   ],
   bootstrap: [AppComponent]
 })

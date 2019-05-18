@@ -1,0 +1,11 @@
+- update interface to use snake case
+- DRY http calls with headers
+- add test for services
+- use angular.common.http
+- clean up injectable, not needed?
+- flatten directories
+- update readme
+
+improve
+- use proper datetime picker
+

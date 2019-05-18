@@ -43,6 +43,7 @@ import { ClockEntry } from '../../models/clock-entry.interface';
           #noteInput>
       </div>
       <button (click)="update()">Update</button>
+      <button (click)="remove()">Delete</button>
     </div>
   `
 })
@@ -75,6 +76,11 @@ export class EditClockEntryComponent implements OnInit {
 
   update() {
     this.clockService.updateEntry(this.entry)
+      .subscribe(() => this.router.navigate(['/clock/history']));
+  }
+
+  remove() {
+    this.clockService.deleteEntry(this.entry)
       .subscribe(() => this.router.navigate(['/clock/history']));
   }
 }

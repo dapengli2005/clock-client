@@ -18,6 +18,7 @@ const REGISTER_ENTRY_URL: string = `${API_BASE}/users/:user_id/clock_entries`;
 const GET_ENTRIES_URL: string = `${API_BASE}/users/:user_id/clock_entries`;
 const GET_ENTRY_URL: string = `${API_BASE}/users/:user_id/clock_entries/:id`;
 const UPDATE_ENTRY_URL: string = `${API_BASE}/users/:user_id/clock_entries/:id`;
+const DELETE_ENTRY_URL: string = `${API_BASE}/users/:user_id/clock_entries/:id`;
 
 @Injectable()
 export class ClockService {
@@ -70,6 +71,16 @@ export class ClockService {
 
     return this.http
       .put(url, entry)
+      .map((response: Response) => response.json())
+      .catch((error: any) => Observable.throw(error.json()));
+  }
+
+  deleteEntry(entry: ClockEntry): Observable<ClockEntry> {
+    const url = DELETE_ENTRY_URL.replace(':user_id', `${this.userService.getUser().id}`)
+                                .replace(':id', `${entry.id}`);
+
+    return this.http
+      .delete(url)
       .map((response: Response) => response.json())
       .catch((error: any) => Observable.throw(error.json()));
   }
